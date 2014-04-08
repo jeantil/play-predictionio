@@ -65,3 +65,5 @@ publishTo := {
 }
 
 resolvers ++= Seq("Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/")
+
+incOptions := incOptions.value.withNameHashing(true)
