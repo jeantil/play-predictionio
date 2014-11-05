@@ -2,8 +2,6 @@ name := "play-predictionio"
 
 organization := "com.github.filosganga"
 
-version := "1.0-SNAPSHOT"
-
 homepage := Some(url("http://github.com/filosganga/play-predictionio"))
 
 organizationHomepage := Some(url("http://filippodeluca.com"))
@@ -11,7 +9,6 @@ organizationHomepage := Some(url("http://filippodeluca.com"))
 licenses := Seq("Apache 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.html"))
 
 startYear := Some(2013)
-
 
 scmInfo := Some(ScmInfo(
     url("http://github.com/filosganga/play-predictionio"),
@@ -26,9 +23,11 @@ crossScalaVersions := Seq("2.10.3")
 scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature")
 
 libraryDependencies ++= {
-   val playVersion = "2.2.2"
+   val playVersion = "2.3.6"
    Seq(
      "com.typesafe.play" %% "play" % playVersion % "provided",
+     "com.typesafe.play" %% "play-json" % playVersion % "provided",
+     "com.typesafe.play" %% "play-ws" % playVersion % "provided",
      "org.specs2" %% "specs2" % "1.14" % "test",
      "org.mockito" % "mockito-all" % "1.9.5" % "test",
      "com.typesafe.play" %% "play-test" % playVersion % "test"
@@ -75,3 +74,5 @@ publishTo := {
 }
 
 resolvers ++= Seq("Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/")
+
+version in ThisBuild <<=(GitKeys.gitHeadCommit in ThisBuild) apply { (commit)=> commit.getOrElse("Undefined")}

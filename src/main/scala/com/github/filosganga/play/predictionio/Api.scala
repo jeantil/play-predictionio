@@ -17,7 +17,7 @@ trait Api {
 
   lazy val format = new JsonFormat(apiKey)
 
-  def getUser(id: UserId)(implicit ec: ExecutionContext): Future[User] = {
+  def getUser(id: UserId)(implicit ec: ExecutionContext, app:play.api.Application): Future[User] = {
 
     import format._
 
@@ -31,7 +31,7 @@ trait Api {
     }
   }
 
-  def createUser(user: User)(implicit ec: ExecutionContext): Future[User] = {
+  def createUser(user: User)(implicit ec: ExecutionContext, app:play.api.Application): Future[User] = {
 
     import format._
 
@@ -41,14 +41,14 @@ trait Api {
     }
   }
 
-  def deleteUser(uid: UserId)(implicit ec: ExecutionContext): Future[Unit] = {
+  def deleteUser(uid: UserId)(implicit ec: ExecutionContext, app:play.api.Application): Future[Unit] = {
     WS.url(s"$endpoint/users/$uid.json").withQueryString("pio_appkey" -> apiKey).delete().map {
       case response if response.status >= 300 => Future.failed(new RuntimeException(response.statusText))
       case _ => Future.successful()
     }
   }
 
-  def getItem(id: ItemId)(implicit ec: ExecutionContext): Future[Item] = {
+  def getItem(id: ItemId)(implicit ec: ExecutionContext, app:play.api.Application): Future[Item] = {
 
     import format._
 
@@ -58,7 +58,7 @@ trait Api {
     }
   }
 
-  def createItem(item: Item)(implicit ec: ExecutionContext): Future[Item] = {
+  def createItem(item: Item)(implicit ec: ExecutionContext, app:play.api.Application): Future[Item] = {
 
     import format._
 
@@ -70,14 +70,14 @@ trait Api {
     }
   }
 
-  def deleteItem(id: ItemId)(implicit ec: ExecutionContext): Future[Unit] = future {
+  def deleteItem(id: ItemId)(implicit ec: ExecutionContext, app:play.api.Application): Future[Unit] = future {
     WS.url(s"$endpoint/items/$id.json").withQueryString("pio_appkey" -> apiKey).delete().flatMap {
       case response if response.status >= 300 => Future.failed(new RuntimeException(response.statusText))
       case _ => Future.successful()
     }
   }
 
-  def userAction(action: Action)(implicit ec: ExecutionContext): Future[Action] = {
+  def userAction(action: Action)(implicit ec: ExecutionContext, app:play.api.Application): Future[Action] = {
 
     import format._
 
@@ -94,7 +94,7 @@ trait Api {
                       attributes: Set[String] = Set.empty,
                       location: Option[Location] = None,
                       distance: Option[Distance] = None)
-                     (implicit ec: ExecutionContext): Future[immutable.Seq[ItemInfo]] = {
+                     (implicit ec: ExecutionContext, app:play.api.Application): Future[immutable.Seq[ItemInfo]] = {
 
     import format._
 
@@ -125,7 +125,7 @@ trait Api {
                       attributes: Set[String] = Set.empty,
                       location: Option[Location] = None,
                       distance: Option[Distance] = None)
-                     (implicit ec: ExecutionContext): Future[immutable.Seq[ItemInfo]] = {
+                     (implicit ec: ExecutionContext, app:play.api.Application): Future[immutable.Seq[ItemInfo]] = {
 
     import format._
 
